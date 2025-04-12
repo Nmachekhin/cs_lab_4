@@ -25,7 +25,7 @@ namespace PersonDisplay
             _source = new ObservableCollection<Person>();
             PeopleGrid.ItemsSource = _source;
             _viewController = new ViewMain();
-
+            _viewController.ShowErrorMessage += ErrorMessagebox;
             _viewController.DisplayPeopleEvent += AddToGrid;
             _viewController.EditPanelVisibility += PanelVisibilityEvent;
             _viewController.GridVisibility += GridVisibilityEvent;
@@ -138,6 +138,18 @@ namespace PersonDisplay
         {
             if (visible) GridPanel.Visibility = Visibility.Visible;
             else GridPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void SortTagEvent(object sender, DataGridSortingEventArgs e)
+        {
+
+        }
+
+
+        private void ErrorMessagebox(object sender, string message)
+        {
+            MessageBox.Show(message, "Error has occured!",
+                MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
     }

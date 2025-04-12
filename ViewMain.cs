@@ -13,6 +13,7 @@ namespace PersonDisplay
         public EventHandler<List<Person>> DisplayPeopleEvent;
         public EventHandler ClearGrid;
         public EventHandler<bool> EditPanelVisibility;
+        public event EventHandler<string> ShowErrorMessage;
         public EventHandler<bool> EditPanelEditable;
         public EventHandler<bool> GridVisibility;
         public EventHandler<Person> FillEditDataEvent;
@@ -165,21 +166,54 @@ namespace PersonDisplay
         public async Task ProceedButtonClick(string name, string surname, string email, DateTime birthDate)
         {
             EditPanelEditable.Invoke(this, false);
-            if (_editing)
+            Person nPerson=null;
+            int pId=0;
+            bool sucess = false;
+            try
             {
-                int pId = GetPersonId(_editPerson);
-                _people[pId] = new Person(name, surname, email);
-                await _people[pId].UpdateDate(birthDate);
-                EditPanelEditable.Invoke(this, true);
+                if (_editing)
+                {
+                    pId = GetPersonId(_editPerson);
+                    nPerson = new Person(name, surname, email);
+                    await nPerson.UpdateDate(birthDate);
+                    sucess = true;
+                }
+                else
+                {
+                    nPerson = new Person(name, surname, email);
+                    await _people.Last().UpdateDate(birthDate);
+                    sucess= true;
+                }
             }
-            else
+            catch(BirthDateInFutureException ex)
             {
-                _people.Add(new Person(name, surname, email));
-                await _people.Last().UpdateDate(birthDate);
+                ShowErrorMessage.Invoke(this, ex.Message);
             }
-            ClearGrid.Invoke(this, EventArgs.Empty);
-            GetAll();
-            CancellButtonClick();
+            catch (BirthDateTooFarInPastException ex)
+            {
+                ShowErrorMessage.Invoke(this, ex.Message);
+            }
+            catch (InvalidEmailFormattingException ex)
+            {
+                ShowErrorMessage.Invoke(this, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage.Invoke(this, "Something went wrong: "+ex.Message);
+            }
+            if (sucess)
+            {
+                if (_editing)
+                {
+                    _people[pId] = nPerson;
+                }
+                else _people.Add(nPerson);
+                ClearGrid.Invoke(this, EventArgs.Empty);
+                GetAll();
+                CancellButtonClick();
+            }
+            EditPanelEditable.Invoke(this, true);
+
         }
 
         public void DeleteButtonClick(Person person)
@@ -205,6 +239,14 @@ namespace PersonDisplay
         public bool IsReady
         {
             get { return _peopleReady; }
+        }
+
+
+        public void UpdateSorter(string sorter)
+        {
+            _sortingAttribute = sorter;
+            ClearGrid.Invoke(this, EventArgs.Empty);
+            GetAll();
         }
 
     }

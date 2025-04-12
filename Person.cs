@@ -109,7 +109,8 @@ namespace PersonDisplay
 
         public async Task UpdateDate(DateTime date)
         {
-            await _calculator.UpdateFields(date);
+            if (DateValidator(date))
+                await _calculator.UpdateFields(date);
         }
 
         public bool IsValid

@@ -35,7 +35,7 @@
 
                     <DataGrid x:Name="PeopleGrid" 
                     AutoGenerateColumns="False" IsReadOnly="True" Visibility="Visible" CanUserSortColumns="False"
-                          VerticalScrollBarVisibility="Visible" Height="379">
+                          Height="379">
 
                         <DataGrid.Columns>
 
