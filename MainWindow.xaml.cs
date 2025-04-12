@@ -49,7 +49,6 @@ namespace PersonDisplay
         private void ClearGridEvent(object sender, EventArgs e)
         {
             _source.Clear();
-            //PeopleGrid.ItemsSource= _source;
         }
 
         private void ClearInputs()
@@ -85,8 +84,13 @@ namespace PersonDisplay
         private void EditObjectEvent(object caller, RoutedEventArgs e)
         {
             Person person = (caller as Button).DataContext as Person;
-            Trace.WriteLine(person.Email);
             _viewController.TriggerEditEvent(person);
+        }
+
+        private void DeleteObjectEvent(object caller, RoutedEventArgs e)
+        {
+            Person person = (caller as Button).DataContext as Person;
+            _viewController.DeleteButtonClick(person);
         }
 
 

@@ -98,6 +98,17 @@ namespace PersonDisplay
             CancellButtonClick();
         }
 
+        public void DeleteButtonClick(Person person)
+        {
+            lock (s_PeopleLocker)
+            {
+                _people.Remove(person);
+            }
+            ClearGrid.Invoke(this, EventArgs.Empty);
+            GetAll();
+            CancellButtonClick();
+        }
+
         public bool IsReady
         {
             get { return _peopleReady; }
