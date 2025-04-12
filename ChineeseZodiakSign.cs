@@ -36,7 +36,7 @@ namespace PersonDisplay
         public static async Task<string> GetSign(DateTime birthday)
         {
             int birthdayYear = birthday.Year;
-            await Task.Delay(200);
+            await Task.Delay(20);
             string resString = new String(s_elements[((birthdayYear%10)/2)%5]);
             resString += " "+ new String(s_Signs[birthdayYear % 12]);
             return resString;

@@ -26,7 +26,7 @@ namespace PersonDisplay
             PeopleGrid.ItemsSource = _source;
             _viewController = new ViewMain();
 
-            _viewController.DisplayPersonEvent += AddToGrid;
+            _viewController.DisplayPeopleEvent += AddToGrid;
             _viewController.EditPanelVisibility += PanelVisibilityEvent;
             _viewController.GridVisibility += GridVisibilityEvent;
             _viewController.UpdateProceedButtonStatus += ButtonStatusEventHandler;
@@ -34,7 +34,7 @@ namespace PersonDisplay
             _viewController.FillEditDataEvent += FillEditFieldsEvent;
             _viewController.ClearGrid += ClearGridEvent;
             
-            PeopleGrid.IsEnabled = false;
+            GridPanel.IsEnabled = false;
             WaitUntillReady();
         }
 
@@ -42,7 +42,7 @@ namespace PersonDisplay
         {
             await _viewController.CreatePeople();
             _viewController.GetAll();
-            PeopleGrid.IsEnabled = true;
+            GridPanel.IsEnabled = true;
         }
 
 
@@ -73,11 +73,13 @@ namespace PersonDisplay
             ProceedButton.IsEnabled = active;
         }
 
-        private void AddToGrid(object caller, Person person)
+        private void AddToGrid(object caller, List<Person> person)
         {
-            
-            _source.Add(person);
-            Trace.WriteLine(_source.Count);
+
+            for (int i = 0; i < person.Count; i++)
+            {
+                _source.Add(person[i]);
+            }
         }
 
 
