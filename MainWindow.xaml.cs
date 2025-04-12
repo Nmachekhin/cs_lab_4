@@ -100,6 +100,11 @@ namespace PersonDisplay
         }
 
 
+        private void AddPersonButtonClick(object sender, RoutedEventArgs e)
+        {
+            _viewController.AddPersonButtonClick();
+        }
+
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
             _viewController.CancellButtonClick();
@@ -129,8 +134,8 @@ namespace PersonDisplay
 
         private void GridVisibilityEvent(object sender, bool visible)
         {
-            if (visible) PeopleGrid.Visibility = Visibility.Visible;
-            else PeopleGrid.Visibility = Visibility.Collapsed;
+            if (visible) GridPanel.Visibility = Visibility.Visible;
+            else GridPanel.Visibility = Visibility.Collapsed;
         }
 
     }

@@ -50,6 +50,7 @@ namespace PersonDisplay
 
         public void TriggerEditEvent(Person person)
         {
+            EditPanelEditable.Invoke(this, true);
             EditPanelVisibility.Invoke(this, true);
             GridVisibility.Invoke(this, false);
             _editPerson = person;
@@ -89,10 +90,18 @@ namespace PersonDisplay
         public async Task ProceedButtonClick(string name, string surname, string email, DateTime birthDate)
         {
             EditPanelEditable.Invoke(this, false);
-            int pId=GetPersonId(_editPerson);
-            _people[pId]=new Person(name, surname, email);
-            await _people[pId].UpdateDate(birthDate);
-            EditPanelEditable.Invoke(this, true);
+            if (_editing)
+            {
+                int pId = GetPersonId(_editPerson);
+                _people[pId] = new Person(name, surname, email);
+                await _people[pId].UpdateDate(birthDate);
+                EditPanelEditable.Invoke(this, true);
+            }
+            else
+            {
+                _people.Add(new Person(name, surname, email));
+                await _people.Last().UpdateDate(birthDate);
+            }
             ClearGrid.Invoke(this, EventArgs.Empty);
             GetAll();
             CancellButtonClick();
@@ -108,6 +117,15 @@ namespace PersonDisplay
             GetAll();
             CancellButtonClick();
         }
+
+        public void AddPersonButtonClick()
+        {
+            GridVisibility.Invoke(this, false );
+            EditPanelVisibility.Invoke(this, true );
+            EditPanelEditable.Invoke(this, true);
+
+        }
+
 
         public bool IsReady
         {

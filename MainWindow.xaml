@@ -28,39 +28,45 @@
                 <Button Width="55" Height="30" Content="Cancel" Click="CancelButtonClick" IsEnabled="True" x:Name="CancelButton"/>
             </StackPanel>
         </StackPanel>
-        <DataGrid x:Name="PeopleGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                  AutoGenerateColumns="False" IsReadOnly="True" Visibility="Visible">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="First Name" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Last Name"  Binding="{Binding Surname}"/>
-                <DataGridTextColumn Header="Email"  Binding="{Binding Email}"/>
-                <DataGridTemplateColumn Header="Birth Date">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding BirthDate, StringFormat='yyyy-MM-dd'}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Age"  Binding="{Binding Age}"/>
-                <DataGridTextColumn Header="Is adult"  Binding="{Binding IsAdult}"/>
-                <DataGridTextColumn Header="Zodiac Sign"  Binding="{Binding SunSign}"/>
-                <DataGridTextColumn Header="Chineese Zodiak Sign"  Binding="{Binding ChineeseSign}"/>
-                <DataGridTemplateColumn Header="">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                                <Button Content="Edit" Click="EditObjectEvent"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Delete" Click="DeleteObjectEvent"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-        </DataGrid>
+            
+        <StackPanel HorizontalAlignment="Left" x:Name="GridPanel">
+            <Button Width="70" Height="30" Content="Add Person" Click="AddPersonButtonClick" IsEnabled="True" x:Name="AddButton" HorizontalAlignment="Left"/>
+                <DataGrid x:Name="PeopleGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                    AutoGenerateColumns="False" IsReadOnly="True" Visibility="Visible">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="First Name" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Last Name"  Binding="{Binding Surname}"/>
+                        <DataGridTextColumn Header="Email"  Binding="{Binding Email}"/>
+                        <DataGridTemplateColumn Header="Birth Date">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BirthDate, StringFormat='yyyy-MM-dd'}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Age"  Binding="{Binding Age}"/>
+                        <DataGridTextColumn Header="Is adult"  Binding="{Binding IsAdult}"/>
+                        <DataGridTextColumn Header="Zodiac Sign"  Binding="{Binding SunSign}"/>
+                        <DataGridTextColumn Header="Chineese Zodiak Sign"  Binding="{Binding ChineeseSign}"/>
+                        <DataGridTemplateColumn Header="">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Edit" Click="EditObjectEvent"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Delete" Click="DeleteObjectEvent"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+       
+        
         </StackPanel>
     </Grid>
 </Window>
