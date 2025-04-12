@@ -1,0 +1,59 @@
+﻿<Window x:Class="PersonDisplay.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PersonDisplay"
+        mc:Ignorable="d"
+        Title="Data list" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+        <StackPanel Orientation="Vertical" x:Name="AllInputsPanel" Visibility="Collapsed" IsEnabled="True">
+            <TextBlock Text="Enter name:" FontWeight="Bold" />
+            <TextBox Width="250" MaxLength="30"  HorizontalAlignment="Left" TextChanged="InputsTextChanged" x:Name="NameInputBox"/>
+            <TextBlock Text="Enter surname:" FontWeight="Bold"/>
+            <TextBox Width="250" MaxLength="30"  HorizontalAlignment="Left" TextChanged="InputsTextChanged" x:Name="SurnameInputBox"/>
+            <TextBlock Text="Enter email:" FontWeight="Bold"/>
+            <TextBox Width="250" MaxLength="30"  HorizontalAlignment="Left" TextChanged="InputsTextChanged" x:Name="EmailInputBox"/>
+            <TextBlock Text="Enter birthday date:" FontWeight="Bold"/>
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+                <DatePicker Width="150" Height="30" x:Name="BirthdayDatePicker">
+                    <DatePicker.Resources>
+                        <Style TargetType="DatePickerTextBox">
+                            <EventSetter Event="TextChanged" Handler="InputsTextChanged"/>
+                        </Style>
+                    </DatePicker.Resources>
+                </DatePicker>
+                <Button Width="55" Height="30" Content="Proceed" Click="ConfirmDateButtonClick" IsEnabled="False" x:Name="ProceedButton"/>
+                <Button Width="55" Height="30" Content="Cancel" Click="CancelButtonClick" IsEnabled="True" x:Name="CancelButton"/>
+            </StackPanel>
+        </StackPanel>
+        <DataGrid x:Name="PeopleGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                  AutoGenerateColumns="False" IsReadOnly="True" Visibility="Visible">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="First Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Last Name"  Binding="{Binding Surname}"/>
+                <DataGridTextColumn Header="Email"  Binding="{Binding Email}"/>
+                <DataGridTemplateColumn Header="Birth Date">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BirthDate, StringFormat='yyyy-MM-dd'}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Age"  Binding="{Binding Age}"/>
+                <DataGridTextColumn Header="Is adult"  Binding="{Binding IsAdult}"/>
+                <DataGridTextColumn Header="Zodiac Sign"  Binding="{Binding SunSign}"/>
+                <DataGridTextColumn Header="Chineese Zodiak Sign"  Binding="{Binding ChineeseSign}"/>
+                <DataGridTemplateColumn Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                                <Button Content="Edit" Click="EditObjectEvent"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>
