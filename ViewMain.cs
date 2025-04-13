@@ -18,11 +18,13 @@ namespace PersonDisplay
         public EventHandler<bool> GridVisibility;
         public EventHandler<Person> FillEditDataEvent;
         public event EventHandler<bool> UpdateProceedButtonStatus;
+        public event EventHandler<Tuple<String, bool>> SetSortingDirectionEvent;
         private static readonly object s_PeopleLocker = new object();
         private Person _editPerson;
         private bool _editing=false;
         private bool _peopleReady = false;
         private string _sortingAttribute = nameof(Person.Name);
+        private bool _sortingDirection=true;
         public async Task CreatePeople() 
         {
             lock(s_PeopleLocker)
@@ -100,19 +102,21 @@ namespace PersonDisplay
             switch (_sortingAttribute)
             {
                 case (nameof(Person.Name)):
-                    return data.OrderBy(x => (x as Person).Name);
+                    return (_sortingDirection ? data.OrderBy(x => (x as Person).Name) : data.OrderByDescending(x => (x as Person).Name));
                 case (nameof(Person.Surname)):
-                    return data.OrderBy(x => (x as Person).Surname);
+                    return (_sortingDirection ? data.OrderBy(x => (x as Person).Surname) : data.OrderByDescending(x => (x as Person).Surname));
                 case (nameof(Person.Email)):
-                    return data.OrderBy(x => (x as Person).Email);
+                    return (_sortingDirection ? data.OrderBy(x => (x as Person).Email) : data.OrderByDescending(x => (x as Person).Email));
                 case (nameof(Person.BirthDate)):
-                    return data.OrderBy(x => (x as Person).BirthDate);
+                    return (_sortingDirection ? data.OrderBy(x => (x as Person).BirthDate) : data.OrderByDescending(x => (x as Person).BirthDate));
                 case (nameof(Person.SunSign)):
-                    return data.OrderBy(x => (x as Person).SunSign);
+                    return (_sortingDirection ? data.OrderBy(x => (x as Person).SunSign) : data.OrderByDescending(x => (x as Person).SunSign));
                 case (nameof(Person.ChineeseSign)):
-                    return data.OrderBy(x => (x as Person).ChineeseSign);
+                    return (_sortingDirection ? data.OrderBy(x => (x as Person).ChineeseSign) : data.OrderByDescending(x => (x as Person).ChineeseSign));
                 case (nameof(Person.IsAdult)):
-                    return data.OrderBy(x => (x as Person).IsAdult);
+                    return (_sortingDirection ? data.OrderBy(x => (x as Person).IsAdult) : data.OrderByDescending(x => (x as Person).IsAdult));
+                case (nameof(Person.Age)):
+                    return (_sortingDirection ? data.OrderBy(x => (x as Person).Age) : data.OrderByDescending(x => (x as Person).Age));
                 default:
                     throw new NotImplementedException("Unknown sorting type!");
             }
@@ -181,7 +185,7 @@ namespace PersonDisplay
                 else
                 {
                     nPerson = new Person(name, surname, email);
-                    await _people.Last().UpdateDate(birthDate);
+                    await nPerson.UpdateDate(birthDate);
                     sucess= true;
                 }
             }
@@ -244,8 +248,11 @@ namespace PersonDisplay
 
         public void UpdateSorter(string sorter)
         {
-            _sortingAttribute = sorter;
+            if (_sortingAttribute == sorter) _sortingDirection = !_sortingDirection;
+            else _sortingDirection = true;
+                _sortingAttribute = new string(sorter);
             ClearGrid.Invoke(this, EventArgs.Empty);
+            SetSortingDirectionEvent.Invoke(this, new Tuple<string, bool>(sorter, _sortingDirection));
             GetAll();
         }
 

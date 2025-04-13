@@ -34,25 +34,23 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
 
                     <DataGrid x:Name="PeopleGrid" 
-                    AutoGenerateColumns="False" IsReadOnly="True" Visibility="Visible" CanUserSortColumns="False"
-                          Height="379">
-
+                    AutoGenerateColumns="False" IsReadOnly="True" Visibility="Visible" CanUserSortColumns="True"
+                          Height="379" Sorting="SortingEvent" >
                         <DataGrid.Columns>
-
-                            <DataGridTextColumn Header="First Name" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Last Name"  Binding="{Binding Surname}"/>
-                            <DataGridTextColumn Header="Email"  Binding="{Binding Email}"/>
-                            <DataGridTemplateColumn Header="Birth Date">
+                            <DataGridTextColumn Header="First Name" Binding="{Binding Name}" SortMemberPath="Name"/>
+                            <DataGridTextColumn Header="Last Name"  Binding="{Binding Surname}" SortMemberPath="Surname"/>
+                            <DataGridTextColumn Header="Email"  Binding="{Binding Email}" SortMemberPath="Email"/>
+                            <DataGridTemplateColumn Header="Birth Date" CanUserReorder="True" SortMemberPath="BirthDate">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding BirthDate, StringFormat='yyyy-MM-dd'}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Age"  Binding="{Binding Age}"/>
-                            <DataGridTextColumn Header="Is adult"  Binding="{Binding IsAdult}"/>
-                            <DataGridTextColumn Header="Zodiac Sign"  Binding="{Binding SunSign}"/>
-                            <DataGridTextColumn Header="Chineese Zodiak Sign"  Binding="{Binding ChineeseSign}"/>
+                            <DataGridTextColumn Header="Age"  Binding="{Binding Age}" SortMemberPath="Age"/>
+                            <DataGridTextColumn Header="Is adult"  Binding="{Binding IsAdult}"  SortMemberPath="IsAdult"/>
+                            <DataGridTextColumn Header="Zodiac Sign"  Binding="{Binding SunSign}"  SortMemberPath="SunSign"/>
+                            <DataGridTextColumn Header="Chineese Zodiak Sign"  Binding="{Binding ChineeseSign}"  SortMemberPath="ChineeseSign"/>
                             <DataGridTemplateColumn Header="">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
